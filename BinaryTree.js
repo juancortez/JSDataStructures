@@ -10,7 +10,16 @@ const BinaryTree = (function(){
 		root = _insert(root, data);
 	};
 
+	/** 
+ 		Returns the number of nodes in the tree. 
+
+ 		@output		returns an integer representing the number of nodes in the binary tree
+	*/ 
 	function size(){
+		if(root === null){
+ 			console.info("Binary tree is empty.");
+ 			return 0;
+ 		}
 		return _size(root);
 	};
 
@@ -41,9 +50,48 @@ const BinaryTree = (function(){
 		}
 	};	
 
+	/** 
+	 	Returns the max root-to-leaf depth of the tree. 
+	*/ 
 	function maxDepth(){
+		if(root === null){
+ 			console.info("Binary tree is empty.");
+ 			return -1;
+ 		}
 		return _maxDepth(root);
 	}
+
+	/** 
+ 		Returns the min value in a non-empty binary search tree. 
+
+ 		@output		the minimum value of the binary tree
+ 	*/
+ 	function minValue(){
+ 		if(root === null){
+ 			console.info("Binary tree is empty.");
+ 			return -1;
+ 		}
+ 		let current = root;
+ 		while(current.left !== null){
+ 			current = current.left;
+ 		}
+ 		return current.data;
+ 	}
+
+ 	/**
+		Finds the path between node n1, and n2
+
+		@param {n1}				the starting node for the path
+		@param {n2}				the ending node
+		@output {output.exists} a boolean value representing whether or not a path exists
+		@output {output.path}   a string representing the path between the 2 nodes
+ 	*/
+ 	function pathBetween(n1, n2){
+ 		return{
+ 			'exists': false,
+ 			'path': ''
+ 		}
+ 	}
 
 	_maxDepth = (node) => {
 		if(node === null) return 0;
@@ -103,6 +151,8 @@ const BinaryTree = (function(){
 		insert,
 		size,
 		maxDepth,
+		minValue,
+		pathBetween,
 		print
 	};
 })();
@@ -123,3 +173,23 @@ console.log(`Size of BinaryTree is ${size}`);
 
 const maxDepth = BinaryTree.maxDepth();
 console.log(`Max depth of BinaryTree is ${maxDepth}`);
+
+const minValue = BinaryTree.minValue();
+console.log(`Min value is ${minValue}`);
+
+const n1 = 3;
+const n2 = 7;
+const pathExists = BinaryTree.pathBetween(n1, n2);
+if(pathExists.exists) console.log(`The path between ${n1} and ${n2} is ${pathExists.path}`);
+else console.info(`The path between ${n1} and ${n2} does not exist`);
+
+
+
+
+
+
+
+
+
+
+
