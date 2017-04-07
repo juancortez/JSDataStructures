@@ -265,7 +265,7 @@ const minValue = BinaryTree.minValue();
 console.log(`Min value is ${minValue}`);
 
 const n1 = {
-	'data': 10
+	'data': 3
 };
 const n2 = {
 	'data': 20
