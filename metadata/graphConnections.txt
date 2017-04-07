@@ -1,9 +1,12 @@
 House A: House B, House C
 House B:
 House C: House D
-House D: House B House E
+House D: House B House E House J
 House E: House F House I
 House F: House G House H
 House G: House H
 House H: House I
 House I:
+House J: House K
+House K: House L
+House L:

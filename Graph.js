@@ -6,6 +6,7 @@ const Queue = require('./Queue'),
 
 const Graph = (function(){
 	const graph = {};
+	const state = {};
 
 	/*
 		Creates a node to the graph only if it doesn't already exist
@@ -23,16 +24,103 @@ const Graph = (function(){
 		_connect(n1, n2);
 	}
 
-	function breadthFirstSearch(){
+	/*
+		Pseudo Algorithm:
+			create a queue Q
+			mark v as visited and put v into Q
+			while Q is non-empty
+			remove the head u of Q
+			mark and enqueue a
+	*/
+	function breadthFirstSearch(startingNode){
+		_clearState();
+		const path = [];
 		Queue.init();
+		Queue.add(startingNode);
+		_setVisited(startingNode);
+
+		while(Queue.size() !== 0){
+			let element = Queue.remove();
+			path.push(element);
+
+			let connectedPaths = graph[element].connectedTo;
+
+			for(let node of connectedPaths){
+				let nodeName = node.name;
+				if(_isVisited(nodeName)) continue;
+				else _setVisited(nodeName);
+				Queue.add(nodeName);
+			}
+		}
+		console.log("Breadth First Search Path:");
+		console.log(path.join(' -> '));
+	}
+
+	/*
+		create a stack S
+		mark v as visited and push v onto S
+		while S is non-empty
+		peek at the top u of S
+		if u has an (unvisited)neighbour w,
+		mark w and push it onto S
+		else pop S
+	*/
+	function depthFirstSearch(startingNode){
+		_clearState();
+		const path = [];
+		Stack.init();
+		Stack.push(startingNode);
+		_setVisited(startingNode);
+
+		while(!Stack.empty()){
+			let element = Stack.pop();
+			path.push(element);
+
+			let connectedPaths = graph[element].connectedTo;
+
+			for(let node of connectedPaths){
+				let nodeName = node.name;
+				if(_isVisited(nodeName)) continue;
+				else _setVisited(nodeName);
+				Stack.push(nodeName);
+			}
+		}
+
+		console.log("Depth First Search Path:");
+		console.log(path.join(' -> '));
 	}
 
 	/*
 		Determines whether or not a path exists from n1 to n2
 	*/
 	function pathExists(n1, n2){
-		if(!graph[n1] || !graph[n2]) return false;
+		if(!contains(n1) || !contains(n1)) return false;
 		else return graph[n1].connectedTo.has(graph[n2]);
+	}
+
+	/*
+		Determines whether or not the graph contains the particular node
+	*/
+	function contains(node){
+		if(!graph[node]) return false;
+		else return true;
+	}
+
+	function _clearState(){
+		for(let element in state){
+			state[element].visited = false;
+		}
+	}
+
+	/*
+		Determines whether or not a node has been visited. Helper for BFS and DFS
+	*/
+	function _isVisited(m){
+		return state[m].visited;
+	}
+
+	function _setVisited(m){
+		state[m].visited = true;
 	}
 
 	/*
@@ -64,6 +152,12 @@ const Graph = (function(){
 			'name': n,
 			'connectedTo': new Set()
 		};
+
+		state[n] = {
+			'name': n,
+			'visited': false
+		}
+
 		graph[n] = node;
 	};
 
@@ -72,6 +166,8 @@ const Graph = (function(){
 		printGraph,
 		pathExists,
 		breadthFirstSearch,
+		depthFirstSearch,
+		contains,
 		createConnection
 	};
 })();
@@ -114,7 +210,8 @@ const p1 = new Promise((resolve, reject) => {
 
 p1.then((data) => {
 	GraphCreator.create(data);
-	Graph.breadthFirstSearch();
+	Graph.breadthFirstSearch("A"); // starting breadth first search from A
+	Graph.depthFirstSearch("A"); // starting depth first search from A
 }).catch((err) => {
 	console.error(err);
 });
