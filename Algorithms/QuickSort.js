@@ -55,6 +55,9 @@ const QuickSort = (() => {
 	}
 })();
 
+
+const TEST = false;
+
 function test(){
 	let arr = [];
 
@@ -69,6 +72,6 @@ function test(){
 }
 
 
-test();
+TEST && test();
 
 module.exports = QuickSort;

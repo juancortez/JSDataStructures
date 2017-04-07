@@ -1,6 +1,9 @@
 const fs = require('fs'),
 	filePath = 'metadata/graphConnections.txt';
 
+const Queue = require('./Queue'),
+	Stack = require("./Stack");
+
 const Graph = (function(){
 	const graph = {};
 
@@ -18,6 +21,10 @@ const Graph = (function(){
 		if(!graph[n1]) _createNode(n1);
 		if(!graph[n2]) _createNode(n2);
 		_connect(n1, n2);
+	}
+
+	function breadthFirstSearch(){
+		Queue.init();
 	}
 
 	/*
@@ -48,7 +55,7 @@ const Graph = (function(){
 		}
 	}
 
-	function _connect(n1, n2){
+	_connect = (n1, n2) => {
 		graph[n1].connectedTo.add(graph[n2]);
 	}
 
@@ -64,6 +71,7 @@ const Graph = (function(){
 		addNode,
 		printGraph,
 		pathExists,
+		breadthFirstSearch,
 		createConnection
 	};
 })();
@@ -106,18 +114,7 @@ const p1 = new Promise((resolve, reject) => {
 
 p1.then((data) => {
 	GraphCreator.create(data);
+	Graph.breadthFirstSearch();
 }).catch((err) => {
 	console.error(err);
 });
-
-
-
-
-
-
-
-
-
-
-
-

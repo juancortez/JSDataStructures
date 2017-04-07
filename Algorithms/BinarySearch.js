@@ -48,6 +48,9 @@ const BinarySearch = (() => {
 	}
 })();
 
+
+const TEST = false;
+
 function test(){
 	let arr = [];
 	for(let i = 0; i < 20; i++){
@@ -68,6 +71,6 @@ function test(){
 	}	
 }
 
-test();
+TEST && test();
 
 module.exports = BinarySearch;
