@@ -1,0 +1,4 @@
+House A: House B, House C
+House B:
+House C: House D
+House D: House B
