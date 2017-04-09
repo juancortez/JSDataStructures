@@ -1,12 +1,8 @@
 const Queue = (function(){
-	let head = null,
-		tail = null,
-		cachedSize = null; // cache size so we don't have to iterate through whole queue each time
-
 	function init(){
 		this.head = null;
 		this.tail = null;
-		this.cachedSize = null;
+		this.cachedSize = null; // cache size so we don't have to iterate through whole queue each time
 	}
 
 	function add(n){

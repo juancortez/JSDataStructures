@@ -1,7 +1,4 @@
 const Stack = (function(){
-	let head = null,
-		cachedSize = null;
-
 	function init(){
 		this.head = null
 		this.cachedSize = null;

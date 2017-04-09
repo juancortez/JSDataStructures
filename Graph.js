@@ -177,25 +177,41 @@ const Graph = (function(){
 		House A: House B, House C  	- 	means that House A is connected to House B and House C
 */
 const GraphCreator = (function(){
+	function _matcher(regex, input) {
+	  return () => {
+	    const match = regex.exec(input)
+	    const lastIndex = regex.lastIndex
+	    return { 
+	    	lastIndex, 
+	    	match 
+	    };
+	  }
+	}
+
 	return{
 		create: function(data){
 			let lines = data.split('\n');
 			lines.forEach((line) => {
-				let houses = line.match(/House\s+(\w{1})/g);
-				let firstHouse;
-				houses.forEach((house, index) => {
-					house = house.match(/House\s+(\w{1})/)[1];
-					if(index === 0){
+				const regularExpression = new RegExp(/House\s+(\w{1})/, 'g'),
+					housesMatch = _matcher(regularExpression, line);
+
+				let house,
+					firstHouse;
+
+				while((house = housesMatch().match) !== null){
+					house = house && house.length >= 1 ? house[1] : null;
+					if(house === null) continue;
+					if(firstHouse === undefined){
+						Graph.addNode(house);
 						firstHouse = house;
-						return Graph.addNode(house);
+					} else{
+						Graph.createConnection(firstHouse, house);
 					}
-					Graph.createConnection(firstHouse, house);
-				});
+				}
 			});
 			Graph.printGraph();
 		}
 	}
-
 })();
 
 const p1 = new Promise((resolve, reject) => {
