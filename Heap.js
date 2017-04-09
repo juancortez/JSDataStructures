@@ -31,7 +31,7 @@ const Heap = (function(){
 	function _siftUp(){
 		let position = this.items.length - 1;
 		while(position > 0){
-			let parentPosition = Math.floor((position - 1) / 2);
+			let parentPosition = _getParentIndex(position);
 			let item = this.items[position];
 			let parent = this.items[parentPosition];
 
@@ -54,7 +54,7 @@ const Heap = (function(){
 
 	function _siftDown(){
 		let k = 0;
-		let l = (2 * k) + 1;
+		let l = _getLeftChild(k);
 
 		let heapSize = this.items.length;
 
@@ -83,15 +83,23 @@ const Heap = (function(){
 			if(this.maxHeap && currentValue.compareTo(maxChild) < 0 ){
 				_swap.call(this, this.items[k]);
 				k = max;
-				l = (2 * k) + 1;
+				l = _getLeftChild(k);
 			} else if(!this.maxHeap && currentValue.compareTo(maxChild) > 0){
 				_swap.call(this, this.items[k]);
 				k = max;
-				l = (2 * k) + 1;
+				l = _getLeftChild(k);
 			} else{
 				break;
 			}
 		}
+	}
+
+	function _getParentIndex(childIndex){
+		return Math.floor((childIndex - 1) / 2);
+	}
+
+	function _getLeftChild(parentIndex){
+		return (2 * parentIndex) + 1;
 	}
 
 	function print(){
@@ -109,9 +117,7 @@ const Heap = (function(){
 		if(this.constructor !== Number || a.constructor !== Number) return null;
 		return this - a;
 	}
-
-
-
+	
 	return{
 		init,
 		insert,
