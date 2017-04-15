@@ -72,7 +72,7 @@ const Graph = (function(){
 		Stack.push(startingNode);
 		_setVisited(startingNode);
 
-		while(!Stack.empty()){
+		while(!Stack.isEmpty()){
 			let element = Stack.pop();
 			path.push(element);
 

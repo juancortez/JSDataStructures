@@ -4,7 +4,7 @@ const Stack = (function(){
 		this.cachedSize = null;
 	}
 
-	function empty(){
+	function isEmpty(){
 		if(this.head === null) return true;
 		else return size.call(this) === 0;
 	}
@@ -32,9 +32,10 @@ const Stack = (function(){
 	}
 
 	function pop(){
-		if(empty.call(this)) return null;
+		if(isEmpty.call(this)) return null;
 		let temp = this.head;
 		this.head = this.head.next;
+		this.cachedSize = this.cachedSize - 1;
 		return temp.data;
 	}
 
@@ -48,8 +49,11 @@ const Stack = (function(){
 		if(result.length > 0) console.log(result.join(' '));
 	}
 
-
-	// removing tail
+	function empty(){
+		while(size.call(this) > 0){
+			pop.call(this);
+		}
+	}
 
 	function _createNode(n) {
 		return{
@@ -62,6 +66,7 @@ const Stack = (function(){
 		init,
 		push,
 		print,
+		isEmpty,
 		empty,
 		size,
 		pop
@@ -79,10 +84,12 @@ function test(){
 	console.log("Popping " + Stack.pop());
 	console.log("Popping " + Stack.pop());
 	console.log("Popping " + Stack.pop());
-	console.log("Is empty? " + Stack.empty());
+	console.log("Is empty? " + Stack.isEmpty());
 	console.log(Stack.pop());
+	console.log(Stack.size());
 }
 
 TEST && test();
 
 module.exports = Stack;
+
