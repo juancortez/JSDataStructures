@@ -1,4 +1,7 @@
-# JavaScript Data Structures
-Repository containing data structures written in JavaScript.
+# JavaScript
 
-To run BinaryTree, run `$node BinaryTree.js`.
+This repository contains code that is all written in JavaScript to solve Data Structure, or Common Interview Problems.
+
+All of the files can be run independently, so to run Graph.js for example, run $node Graph.js and it will execute the code.
+
+
