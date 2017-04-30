@@ -9,7 +9,12 @@ const BinaryTree = (function(){
 
 	function insert(data){
 		root = _insert(root, data);
+		return root;
 	};
+
+	function find(element){
+		return _find(root, element);
+	}
 
 	/** 
  		Returns the number of nodes in the tree. 
@@ -30,20 +35,23 @@ const BinaryTree = (function(){
 							1: Post-order Traversal - In this traversal method, the root node is visited last, hence the name
 							2: In-order Traversal - If a binary tree is traversed in-order, the output will produce sorted key values in an ascending order.
 	*/
-	function print(type){
+	function print(type, print = true){
 		let acc = [];
 		switch(type){
 			case PRINT.PRE:
 				_preOrder(root, acc);
-				console.log("Printing in pre-order:", acc.join(" "));
+				print && console.log("Printing in pre-order:", acc.join(" "));
+				return acc;
 				break;
 			case PRINT.POST:
 				_postOrder(root, acc);
-				console.log("Printing in post-order:", acc.join(" "));
+				print && console.log("Printing in post-order:", acc.join(" "));
+				return acc;
 				break;
 			case PRINT.INORDER:
 				_inOrder(root, acc);
-				console.log("Printing in in-order:", acc.join(" "));
+				print && console.log("Printing in in-order:", acc.join(" "));
+				return acc;
 				break;
 			default:
 				if(type !== undefined) console.error(`${type} not supported. Please select 0, 1, or 2`);
@@ -114,7 +122,6 @@ const BinaryTree = (function(){
  		});
  	}
 
-
 	_nodeHeight = (root, node, height) => {
 		if(root === null) return 0;
 		if(root.data === node.data) return height;
@@ -124,6 +131,15 @@ const BinaryTree = (function(){
 		if(level !== 0) return level;
 	
 		return _nodeHeight(root.right, node, height+1); //check if the node is present in the right sub tree
+	}
+
+	_find = (node, element) => {
+		if(node.data === element) return node;
+		if(element <= node.data){
+			return _find(node.left, element);
+		} else if(element > node.data){
+			return _find(node.right, element);
+		}
 	}
 
 
@@ -237,6 +253,7 @@ const BinaryTree = (function(){
 	return{
 		insert,
 		size,
+		find,
 		maxDepth,
 		minValue,
 		distanceBetween,
@@ -244,36 +261,41 @@ const BinaryTree = (function(){
 	};
 })();
 
-BinaryTree.insert(10);
-BinaryTree.insert(5);
-BinaryTree.insert(3);
-BinaryTree.insert(7);
-BinaryTree.insert(11);
-BinaryTree.insert(20);
 
-BinaryTree.print(0);
-BinaryTree.print(1);
-BinaryTree.print(2);
+const DEBUG = false;
+if(DEBUG){
+	BinaryTree.insert(10);
+	BinaryTree.insert(5);
+	BinaryTree.insert(3);
+	BinaryTree.insert(7);
+	BinaryTree.insert(11);
+	BinaryTree.insert(20);
 
-const size = BinaryTree.size();
-console.log(`Size of BinaryTree is ${size}`);
+	BinaryTree.print(0);
+	BinaryTree.print(1);
+	BinaryTree.print(2);
 
-const maxDepth = BinaryTree.maxDepth();
-console.log(`Max depth of BinaryTree is ${maxDepth}`);
+	const size = BinaryTree.size();
+	console.log(`Size of BinaryTree is ${size}`);
 
-const minValue = BinaryTree.minValue();
-console.log(`Min value is ${minValue}`);
+	const maxDepth = BinaryTree.maxDepth();
+	console.log(`Max depth of BinaryTree is ${maxDepth}`);
 
-const n1 = {
-	'data': 3
-};
-const n2 = {
-	'data': 20
-};
+	const minValue = BinaryTree.minValue();
+	console.log(`Min value is ${minValue}`);
 
-BinaryTree.distanceBetween(n1, n2, (result) => {
-	if(result.exists) console.log(`The distance between ${n1.data} and ${n2.data} is ${result.distance}`);
-	else console.info(`The path between ${n1.data} and ${n2.data} does not exist`);
-});
+	const n1 = {
+		'data': 3
+	};
+	const n2 = {
+		'data': 20
+	};
+
+	BinaryTree.distanceBetween(n1, n2, (result) => {
+		if(result.exists) console.log(`The distance between ${n1.data} and ${n2.data} is ${result.distance}`);
+		else console.info(`The path between ${n1.data} and ${n2.data} does not exist`);
+	});
+}
 
 
+module.exports = BinaryTree;
